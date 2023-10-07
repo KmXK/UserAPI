@@ -1,9 +1,11 @@
-﻿using UA.Data.Enums;
+﻿using System.Text.Json.Serialization;
+using UA.Data.Enums;
 
 namespace UA.Application.ViewModels;
 
 public sealed class UpdateUserViewModel
 {
+    [JsonIgnore]
     public Guid? Id { get; set; }
     
     public string Name { get; set; }
