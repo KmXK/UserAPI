@@ -1,5 +1,8 @@
 ﻿using AutoMapper;
+using UA.Application.AutoMapper.Converters;
 using UA.Application.ViewModels;
+using UA.Application.ViewModels.Pagination;
+using UA.Data.Core.Pagination;
 using UA.Data.Models;
 using UA.Domain.Models;
 
@@ -12,5 +15,8 @@ public sealed class DomainProfile : Profile
         CreateMap<User, UserViewModel>();
         
         CreateMap<CreateUserViewModel, CreateUserModel>();
+
+        CreateMap(typeof(PageFilterViewModel), typeof(PageFilterModel<>))
+            .ConvertUsing(typeof(PageFilterModelConverter<>));
     }
 }
