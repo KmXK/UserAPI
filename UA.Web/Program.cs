@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using UA.Application;
 using UA.Application.AutoMapper;
@@ -21,10 +22,27 @@ builder.Host.ConfigureContainer<ContainerBuilder>(b =>
     b.RegisterModule<ApplicationRegistrationModule>();
 });
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<ValidationFilter>();
-});
+builder.Services
+    .AddControllers(options =>
+    {
+        options.Filters.Add<ApiExceptionFilter>();
+    })
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = context =>
+        {
+            var errors = context.ModelState.Where(x => x.Value.Errors.Count > 0);
+            
+            throw new ValidationException(errors.SelectMany(kvp =>
+            {
+                return kvp.Value.Errors.Select(x => new ValidationFailure
+                {
+                    ErrorMessage = x.ErrorMessage,
+                    PropertyName = kvp.Key,
+                });
+            }));
+        };
+    });
 
 builder.Services.AddDbContext<AppContext>(options =>
     options.UseSqlServer(
