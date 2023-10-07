@@ -1,9 +1,8 @@
 ﻿using System.Linq.Expressions;
-using UA.Data.Models.Base;
 
 namespace UA.Data.Core.Pagination;
 
-public class PropertySorting<TEntity> where TEntity : Entity
+public class PropertySorting<TEntity>
 {
     public SortDirection SortDirection { get; set; }
     

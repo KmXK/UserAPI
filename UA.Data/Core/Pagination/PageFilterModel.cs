@@ -1,8 +1,6 @@
-﻿using UA.Data.Models.Base;
+﻿namespace UA.Data.Core.Pagination;
 
-namespace UA.Data.Core.Pagination;
-
-public class PageFilterModel<TEntity> where TEntity : Entity
+public class PageFilterModel<TEntity>
 {
     public int PageIndex { get; set; }
     

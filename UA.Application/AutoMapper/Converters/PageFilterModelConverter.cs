@@ -2,12 +2,10 @@
 using AutoMapper;
 using UA.Application.ViewModels.Pagination;
 using UA.Data.Core.Pagination;
-using UA.Data.Models.Base;
 
 namespace UA.Application.AutoMapper.Converters;
 
 public class PageFilterModelConverter<TEntity> : ITypeConverter<PageFilterViewModel, PageFilterModel<TEntity>>
-    where TEntity : Entity
 {
     public PageFilterModel<TEntity> Convert(
         PageFilterViewModel pageFilterViewModel,
