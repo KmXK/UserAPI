@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UA.Web", "UA.Web\UA.Web.csproj", "{78ED1311-98F8-4E28-A929-3CDFBE936F1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UA.Data", "UA.Data\UA.Data.csproj", "{2BA4FE80-4587-4EF7-B0E7-BECD0A4D4F25}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UA.Data.Migrations", "UA.Data.Migrations\UA.Data.Migrations.csproj", "{113B6C73-AA6D-4D63-8271-A1486C5F15B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{78ED1311-98F8-4E28-A929-3CDFBE936F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78ED1311-98F8-4E28-A929-3CDFBE936F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78ED1311-98F8-4E28-A929-3CDFBE936F1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BA4FE80-4587-4EF7-B0E7-BECD0A4D4F25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BA4FE80-4587-4EF7-B0E7-BECD0A4D4F25}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BA4FE80-4587-4EF7-B0E7-BECD0A4D4F25}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BA4FE80-4587-4EF7-B0E7-BECD0A4D4F25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{113B6C73-AA6D-4D63-8271-A1486C5F15B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{113B6C73-AA6D-4D63-8271-A1486C5F15B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{113B6C73-AA6D-4D63-8271-A1486C5F15B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{113B6C73-AA6D-4D63-8271-A1486C5F15B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
