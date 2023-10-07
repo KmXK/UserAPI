@@ -1,8 +1,10 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using UA.Application;
 using UA.Application.AutoMapper;
+using UA.Application.Validators;
 using UA.Data;
 using UA.Domain;
 using AppContext = UA.Data.AppContext;
@@ -29,6 +31,8 @@ builder.Services.AddAutoMapper(config =>
 {
     config.AddProfile<DomainProfile>();
 });
+
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserViewModelValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
