@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UA.Application;
 using UA.Application.AutoMapper;
 using UA.Data;
+using UA.Domain;
 using AppContext = UA.Data.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 builder.Host.ConfigureContainer<ContainerBuilder>(b =>
 {
     b.RegisterModule<DataRegistrationModule>();
+    b.RegisterModule<DomainRegistrationModule>();
     b.RegisterModule<ApplicationRegistrationModule>();
 });
 
