@@ -52,4 +52,11 @@ public class UserController : BaseController
         var user = await _userAppService.UpdateAsync(id, viewModel);
         return Ok(user);
     }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    {
+        var result = await _userAppService.DeleteAsync(id);
+        return result ? Ok() : NotFound();
+    }
 }

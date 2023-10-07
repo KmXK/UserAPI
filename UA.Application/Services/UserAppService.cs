@@ -80,4 +80,9 @@ internal sealed class UserAppService : IUserAppService
 
         return _mapper.Map<UserViewModel>(user);
     }
+
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        return await _userService.DeleteAsync(id);
+    }
 }

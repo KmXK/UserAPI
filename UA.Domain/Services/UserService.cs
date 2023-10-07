@@ -123,6 +123,11 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         return user;
     }
 
+    public async Task<bool> DeleteAsync(Guid id)
+    {
+        return await WorkRepository.DeleteBySpecAsync(UserSpecifications.ForId(id)) > 0;
+    }
+
     private async Task UpdateRoles(User user, List<RoleEnum> newRoleIds)
     {
         if (newRoleIds.All(roleId => user.Roles.Any(x => x.Id == roleId)))

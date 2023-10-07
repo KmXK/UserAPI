@@ -14,4 +14,6 @@ public interface IUserAppService
     Task<UserViewModel> UpdateAsync(Guid id, UpdateUserViewModel viewModel);
     
     Task<UserViewModel> UpdateAsync(Guid id, PatchUserViewModel viewModel);
+    
+    Task<bool> DeleteAsync(Guid id);
 }

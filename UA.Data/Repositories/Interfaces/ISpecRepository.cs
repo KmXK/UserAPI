@@ -21,5 +21,7 @@ public interface ISpecRepository<TEntity> : IRepository<TEntity>
         Specification<TEntity> specification,
         Configuration<TEntity> configuration = null);
 
+    Task<int> DeleteBySpecAsync(Specification<TEntity> specification);
+
     Task<bool> Exists(Specification<TEntity> specification);
 }

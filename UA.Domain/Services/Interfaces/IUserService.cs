@@ -17,4 +17,6 @@ public interface IUserService
     Task<User> UpdateAsync(Guid id, UpdateUserModel model);
     
     Task<User> UpdateAsync(Guid id, PatchUserModel model);
+    
+    Task<bool> DeleteAsync(Guid id);
 }
