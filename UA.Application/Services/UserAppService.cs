@@ -1,10 +1,12 @@
-﻿using AutoMapper;
+﻿using System.Text.Json;
+using AutoMapper;
 using UA.Application.Services.Interfaces;
 using UA.Application.Validators.Interfaces;
 using UA.Application.ViewModels;
 using UA.Application.ViewModels.Pagination;
 using UA.Data.Core.Pagination;
 using UA.Data.Models;
+using UA.Domain.Filtering;
 using UA.Domain.Models;
 using UA.Domain.Services.Interfaces;
 
@@ -37,8 +39,12 @@ internal sealed class UserAppService : IUserAppService
         return _mapper.Map<UserViewModel>(user);;
     }
 
-    public async Task<PageViewModel<UserViewModel>> GetListAsync(PageFilterViewModel pageFilterViewModel)
+    public async Task<PageViewModel<UserViewModel>> GetListAsync(
+        PageFilterViewModel pageFilterViewModel,
+        UserListFilterViewModel filterViewModel)
     {
+        var filterModel = _mapper.Map<UserListFilterModel>(filterViewModel);
+        
         await _validator.Validate(pageFilterViewModel);
         
         var pageFilterModel = _mapper.Map<PageFilterModel<User>>(pageFilterViewModel);

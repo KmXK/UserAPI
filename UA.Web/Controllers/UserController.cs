@@ -15,9 +15,11 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    public async Task<IActionResult> List([FromQuery] PageFilterViewModel pageFilterViewModel)
+    public async Task<IActionResult> List(
+        [FromQuery] PageFilterViewModel pageFilterViewModel,
+        [FromQuery, Bind(Prefix = "filterSettings")] UserListFilterViewModel filterViewModel)
     {
-        var user = await _userAppService.GetListAsync(pageFilterViewModel);
+        var user = await _userAppService.GetListAsync(pageFilterViewModel, filterViewModel);
         return Ok(user);
     }
     
