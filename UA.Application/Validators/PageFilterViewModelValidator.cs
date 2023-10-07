@@ -1,5 +1,4 @@
-﻿using System.Data;
-using FluentValidation;
+﻿using FluentValidation;
 using UA.Application.ViewModels.Pagination;
 
 namespace UA.Application.Validators;
