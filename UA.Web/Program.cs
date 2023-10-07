@@ -7,6 +7,7 @@ using UA.Application.AutoMapper;
 using UA.Application.Validators;
 using UA.Data;
 using UA.Domain;
+using UA.Web.Filters;
 using AppContext = UA.Data.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +21,10 @@ builder.Host.ConfigureContainer<ContainerBuilder>(b =>
     b.RegisterModule<ApplicationRegistrationModule>();
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationFilter>();
+});
 
 builder.Services.AddDbContext<AppContext>(options =>
     options.UseSqlServer(
