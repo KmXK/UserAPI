@@ -31,10 +31,7 @@ builder.Services.AddDbContext<AppContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"),
         b => b.MigrationsAssembly("UA.Data.Migrations")));
 
-builder.Services.AddAutoMapper(config =>
-{
-    config.AddProfile<DomainProfile>();
-});
+builder.Services.AddAutoMapper(typeof(DomainProfile).Assembly);
 
 builder.Services.AddValidatorsFromAssemblyContaining<CreateUserViewModelValidator>();
 
