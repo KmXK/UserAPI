@@ -44,7 +44,7 @@ namespace UA.Data.Migrations.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "User"
+                            Name = "Admin"
                         },
                         new
                         {

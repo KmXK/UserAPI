@@ -25,7 +25,7 @@ public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
             new Role
             {
                 Id = RoleEnum.Admin,
-                Name = "User"
+                Name = "Admin"
             },
             new Role
             {

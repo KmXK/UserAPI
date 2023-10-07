@@ -18,7 +18,7 @@ namespace UA.Data.Migrations.Migrations
                 values: new object[,]
                 {
                     { 0, "User" },
-                    { 1, "User" },
+                    { 1, "Admin" },
                     { 2, "Support" },
                     { 3, "Super Admin" }
                 });
