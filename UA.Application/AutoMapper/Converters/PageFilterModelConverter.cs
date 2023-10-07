@@ -19,6 +19,15 @@ public class PageFilterModelConverter<TEntity> : ITypeConverter<PageFilterViewMo
                                           | BindingFlags.Instance
                                           | BindingFlags.GetProperty
                                           | BindingFlags.IgnoreCase;
+
+        if (pageFilterViewModel.Sorting != null)
+        {
+            return new PageFilterModel<TEntity>
+            {
+                PageIndex = pageFilterViewModel.PageIndex,
+                PageSize = pageFilterViewModel.PageSize
+            };
+        }
             
         var selectorParameter = Expression.Parameter(modelType);
         var propertySelector = Expression.Lambda<Func<TEntity, object>>(
