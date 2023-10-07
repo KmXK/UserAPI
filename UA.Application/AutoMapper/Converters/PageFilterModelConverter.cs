@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using AutoMapper;
 using UA.Application.ViewModels.Pagination;
 using UA.Data.Core.Pagination;
@@ -13,22 +14,33 @@ public class PageFilterModelConverter<TEntity> : ITypeConverter<PageFilterViewMo
         ResolutionContext context)
     {
         var modelType = typeof(TEntity);
-
-        pageFilterModel.PageIndex = pageFilterViewModel.PageIndex;
-        pageFilterModel.PageSize = pageFilterViewModel.PageSize;
-
-        pageFilterModel.Sorting.SortDirection = pageFilterViewModel.Sorting.SortDirection;
-
+        
+        const BindingFlags bindingFlags = BindingFlags.Public
+                                          | BindingFlags.Instance
+                                          | BindingFlags.GetProperty
+                                          | BindingFlags.IgnoreCase;
+            
         var selectorParameter = Expression.Parameter(modelType);
-        var propertySelector = Expression.Lambda(
-            Expression.MakeMemberAccess(
-                selectorParameter,
-                modelType.GetProperty(pageFilterViewModel.Sorting.PropertyName)!
-            ),
+        var propertySelector = Expression.Lambda<Func<TEntity, object>>(
+            Expression.Convert(
+                Expression.MakeMemberAccess(
+                    selectorParameter,
+                    modelType.GetProperty(
+                        pageFilterViewModel.Sorting.PropertyName,
+                        bindingFlags)!
+                ),
+                typeof(object)),
             selectorParameter);
 
-        pageFilterModel.Sorting.PropertySelector = propertySelector as Expression<Func<TEntity, object>>;
-
-        return pageFilterModel;
+        return new PageFilterModel<TEntity>
+        {
+            PageIndex = pageFilterViewModel.PageIndex,
+            PageSize = pageFilterViewModel.PageSize,
+            Sorting = new PropertySorting<TEntity>
+            {
+                SortDirection = pageFilterViewModel.Sorting.SortDirection,
+                PropertySelector = propertySelector
+            }
+        };
     }
 }
