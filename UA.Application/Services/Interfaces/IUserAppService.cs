@@ -8,4 +8,6 @@ public interface IUserAppService
     Task<UserViewModel> Create(CreateUserViewModel viewModel);
     
     Task<PageViewModel<UserViewModel>> GetListAsync(PageFilterViewModel pageFilterViewModel);
+
+    Task<UserViewModel> GetUserByIdAsync(Guid id);
 }

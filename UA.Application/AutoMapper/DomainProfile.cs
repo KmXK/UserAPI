@@ -13,6 +13,7 @@ public sealed class DomainProfile : Profile
     public DomainProfile()
     {
         CreateMap<User, UserViewModel>();
+        CreateMap<Role, RoleViewModel>();
         
         CreateMap<CreateUserViewModel, CreateUserModel>();
 

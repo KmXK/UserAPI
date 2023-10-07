@@ -49,4 +49,9 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
             pageFilterModel,
             UserSpecifications.ForAll());
     }
+
+    public async Task<User> GetUserByIdAsync(Guid id)
+    {
+        return await WorkRepository.GetByIdAsync(id);
+    }
 }

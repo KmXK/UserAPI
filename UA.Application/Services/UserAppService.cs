@@ -47,4 +47,11 @@ internal sealed class UserAppService : IUserAppService
         
         return _mapper.Map<PageViewModel<UserViewModel>>(pageModel);
     }
+
+    public async Task<UserViewModel> GetUserByIdAsync(Guid id)
+    {
+        var user = await _userService.GetUserByIdAsync(id);
+
+        return _mapper.Map<UserViewModel>(user);
+    }
 }

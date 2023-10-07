@@ -11,4 +11,6 @@ public interface IUserService
     Task<bool> DoesUserWithEmailExist(string email);
     
     Task<PageModel<User>> GetListAsync(PageFilterModel<User> pageFilterModel);
+
+    Task<User> GetUserByIdAsync(Guid id);
 }

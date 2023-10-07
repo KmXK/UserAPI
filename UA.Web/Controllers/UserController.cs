@@ -21,6 +21,13 @@ public class UserController : BaseController
         return Ok(user);
     }
     
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> List([FromRoute] Guid id)
+    {
+        var user = await _userAppService.GetUserByIdAsync(id);
+        return Ok(user);
+    }
+    
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateUserViewModel viewModel)
     {
