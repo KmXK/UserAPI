@@ -3,6 +3,7 @@ using UA.Data.Models;
 using UA.Domain.Models;
 using UA.Domain.Services.Base;
 using UA.Domain.Services.Interfaces;
+using UA.Domain.Specifications;
 
 namespace UA.Domain.Services;
 
@@ -34,5 +35,10 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         await UnitOfWork.SaveChangesAsync();
 
         return user;
+    }
+
+    public async Task<bool> DoesUserWithEmailExist(string email)
+    {
+        return await WorkRepository.Exists(UserSpecifications.ForEmail(email));
     }
 }

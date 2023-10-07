@@ -6,4 +6,6 @@ namespace UA.Domain.Services.Interfaces;
 public interface IUserService
 {
     Task<User> Create(CreateUserModel model);
+
+    Task<bool> DoesUserWithEmailExist(string email);
 }
