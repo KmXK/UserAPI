@@ -12,7 +12,7 @@ using UA.Data;
 namespace UA.Data.Migrations.Migrations
 {
     [DbContext(typeof(AppContext))]
-    [Migration("20231007121305_Initial")]
+    [Migration("20231007124028_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -56,12 +56,7 @@ namespace UA.Data.Migrations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("User", null, t =>
                         {
@@ -69,15 +64,34 @@ namespace UA.Data.Migrations.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UA.Data.Models.User", b =>
+            modelBuilder.Entity("UserRole", b =>
                 {
-                    b.HasOne("UA.Data.Models.Role", "Role")
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RolesId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRole");
+                });
+
+            modelBuilder.Entity("UserRole", b =>
+                {
+                    b.HasOne("UA.Data.Models.Role", null)
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Role");
+                    b.HasOne("UA.Data.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

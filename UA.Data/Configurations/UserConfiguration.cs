@@ -20,7 +20,8 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Email).IsRequired();
 
         builder
-            .HasOne(x => x.Role)
-            .WithMany();
+            .HasMany(x => x.Roles)
+            .WithMany()
+            .UsingEntity("UserRole");
     }
 }

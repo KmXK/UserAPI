@@ -14,10 +14,5 @@ public sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
         
         builder.Property(x => x.Id).ValueGeneratedNever();
         builder.Property(x => x.Name).IsRequired();
-
-        builder
-            .HasMany<User>()
-            .WithOne(u => u.Role)
-            .HasForeignKey(x => x.RoleId);
     }
 }
