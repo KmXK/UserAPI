@@ -1,4 +1,5 @@
-﻿using UA.Data.Core.Interfaces;
+﻿using UA.Data.Core.Configuration;
+using UA.Data.Core.Interfaces;
 using UA.Data.Core.Pagination;
 using UA.Data.Models;
 using UA.Domain.Models;
@@ -45,13 +46,17 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
 
     public async Task<PageModel<User>> GetListAsync(PageFilterModel<User> pageFilterModel)
     {
+        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
+        
         return await WorkRepository.GetPagedListBySpecAsync(
             pageFilterModel,
-            UserSpecifications.ForAll());
+            UserSpecifications.ForAll(),
+            configuration);
     }
 
     public async Task<User> GetUserByIdAsync(Guid id)
     {
-        return await WorkRepository.GetByIdAsync(id);
+        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
+                return await WorkRepository.GetByIdAsync(id, configuration);
     }
 }

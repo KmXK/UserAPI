@@ -36,15 +36,18 @@ public sealed class Configuration<TEntity> where TEntity : Entity
             }
             else if (expression is MethodCallExpression mc)
             {
-                if (mc.Method.Name != "Select")
+                if (mc.Method.Name != nameof(Enumerable.Select))
                 {
                     throw new InvalidOperationException("Invalid method call found.");
                 }
 
-                var arg = mc.Object as LambdaExpression;
+                var arg = mc.Arguments[1] as LambdaExpression;
                 list.Add(GetIncludeAsString(arg));
 
-                // TODO: Debug
+                expression = mc.Arguments[0];
+            }
+            else
+            {
                 expression = null;
             }
         }
