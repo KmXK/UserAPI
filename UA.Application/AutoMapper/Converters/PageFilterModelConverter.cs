@@ -20,7 +20,7 @@ public class PageFilterModelConverter<TEntity> : ITypeConverter<PageFilterViewMo
                                           | BindingFlags.GetProperty
                                           | BindingFlags.IgnoreCase;
 
-        if (pageFilterViewModel.Sorting != null)
+        if (pageFilterViewModel.Sorting == null)
         {
             return new PageFilterModel<TEntity>
             {
