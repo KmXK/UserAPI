@@ -6,12 +6,12 @@ using UA.Data.Repositories.Interfaces;
 
 namespace UA.Data.Repositories;
 
-public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
+internal class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
 {
     private readonly AppContext _context;
     private readonly DbSet<TEntity> _set;
     
-    protected Repository(AppContext context)
+    internal Repository(AppContext context)
     {
         _context = context;
         _set = _context.Set<TEntity>();

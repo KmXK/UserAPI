@@ -7,10 +7,10 @@ using UA.Data.Repositories.Interfaces;
 
 namespace UA.Data.Repositories;
 
-public class SpecRepository<TEntity> : Repository<TEntity>, ISpecRepository<TEntity>
+internal class SpecRepository<TEntity> : Repository<TEntity>, ISpecRepository<TEntity>
     where TEntity : Entity
 {
-    protected SpecRepository(AppContext context) : base(context)
+    internal SpecRepository(AppContext context) : base(context)
     {
     }
 
