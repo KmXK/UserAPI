@@ -49,7 +49,7 @@ internal sealed class UserAppService : IUserAppService
         
         var pageFilterModel = _mapper.Map<PageFilterModel<User>>(pageFilterViewModel);
 
-        var pageModel = await _userService.GetListAsync(pageFilterModel);
+        var pageModel = await _userService.GetListAsync(pageFilterModel, filterModel);
         
         return _mapper.Map<PageViewModel<UserViewModel>>(pageModel);
     }

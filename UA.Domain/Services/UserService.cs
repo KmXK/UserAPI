@@ -3,6 +3,7 @@ using UA.Data.Core.Interfaces;
 using UA.Data.Core.Pagination;
 using UA.Data.Enums;
 using UA.Data.Models;
+using UA.Domain.Filtering;
 using UA.Domain.Models;
 using UA.Domain.Services.Base;
 using UA.Domain.Services.Interfaces;
@@ -52,13 +53,15 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         return await WorkRepository.Exists(spec);
     }
 
-    public async Task<PageModel<User>> GetListAsync(PageFilterModel<User> pageFilterModel)
+    public async Task<PageModel<User>> GetListAsync(
+        PageFilterModel<User> pageFilterModel,
+        UserListFilterModel filterModel)
     {
         var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
         
         return await WorkRepository.GetPagedListBySpecAsync(
             pageFilterModel,
-            UserSpecifications.ForAll(),
+            UserSpecifications.ForFilter(filterModel),
             configuration);
     }
 

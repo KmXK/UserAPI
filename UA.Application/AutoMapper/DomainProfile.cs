@@ -20,8 +20,6 @@ public sealed class DomainProfile : Profile
         CreateMap<PatchUserViewModel, PatchUserModel>();
 
         CreateMap<UserListFilterViewModel, UserListFilterModel>();
-        CreateMap<string, RoleFilterModel>()
-            .ForMember(x => x.Name, opt => opt.MapFrom(x => x));
 
         CreateMap(typeof(PageModel<>), typeof(PageViewModel<>));
         CreateMap(typeof(PageFilterViewModel), typeof(PageFilterModel<>))

@@ -6,7 +6,7 @@ public class UserListFilterModel
 
     public string Email { get; set; }
     
-    public int Age { get; set; }
+    public int? Age { get; set; }
     
-    public IEnumerable<RoleFilterModel> Roles { get; set; }
+    public IEnumerable<string> Roles { get; set; }
 }

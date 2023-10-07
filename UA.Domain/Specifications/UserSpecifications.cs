@@ -1,5 +1,6 @@
 ﻿using LinqSpecs;
 using UA.Data.Models;
+using UA.Domain.Filtering;
 
 namespace UA.Domain.Specifications;
 
@@ -15,8 +16,30 @@ public static class UserSpecifications
         return new AdHocSpecification<User>(u => u.Email == email);
     }
 
-    public static Specification<User> ForAll()
+    public static Specification<User> ForFilter(UserListFilterModel filterModel)
     {
-        return new TrueSpecification<User>();
+        Specification<User> spec = new TrueSpecification<User>();
+
+        if (filterModel.Email != null)
+        {
+            spec &= new AdHocSpecification<User>(u => u.Email.Contains(filterModel.Email));
+        }
+        
+        if (filterModel.Age.HasValue)
+        {
+            spec &= new AdHocSpecification<User>(u => u.Age == filterModel.Age);
+        }
+        
+        if (filterModel.Name != null)
+        {
+            spec &= new AdHocSpecification<User>(u => u.Name.Contains(filterModel.Name));
+        }
+        
+        if (filterModel.Roles?.Any() == true)
+        {
+            spec &= new AdHocSpecification<User>(u => u.Roles.Any(r => filterModel.Roles.Contains(r.Name)));
+        }
+
+        return spec;
     }
 }
