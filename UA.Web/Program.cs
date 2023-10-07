@@ -1,7 +1,17 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using UA.Application;
 using AppContext = UA.Data.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+
+builder.Host.ConfigureContainer<ContainerBuilder>(b =>
+{
+    b.RegisterModule<ApplicationRegistrationModule>();
+});
 
 builder.Services.AddControllers();
 
