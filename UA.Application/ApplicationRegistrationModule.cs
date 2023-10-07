@@ -1,6 +1,6 @@
 ﻿using Autofac;
-using UA.Application.Interfaces;
 using UA.Application.Services;
+using UA.Application.Services.Interfaces;
 
 namespace UA.Application;
 

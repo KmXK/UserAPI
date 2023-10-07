@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UA.Application.Interfaces;
+using UA.Application.Services.Interfaces;
 using UA.Application.ViewModels;
 
 namespace UA.Web.Controllers;

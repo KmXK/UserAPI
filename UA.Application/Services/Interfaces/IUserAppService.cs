@@ -1,6 +1,6 @@
 ﻿using UA.Application.ViewModels;
 
-namespace UA.Application.Interfaces;
+namespace UA.Application.Services.Interfaces;
 
 public interface IUserAppService
 {

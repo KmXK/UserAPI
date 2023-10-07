@@ -1,8 +1,8 @@
 ﻿using UA.Data.Enums;
 
-namespace UA.Application.ViewModels;
+namespace UA.Domain.Models;
 
-public sealed class CreateUserViewModel
+public sealed class CreateUserModel
 {
     public string Name { get; set; }
     
