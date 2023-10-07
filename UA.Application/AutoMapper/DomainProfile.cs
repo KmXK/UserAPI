@@ -16,6 +16,7 @@ public sealed class DomainProfile : Profile
         
         CreateMap<CreateUserViewModel, CreateUserModel>();
 
+        CreateMap(typeof(PageModel<>), typeof(PageViewModel<>));
         CreateMap(typeof(PageFilterViewModel), typeof(PageFilterModel<>))
             .ConvertUsing(typeof(PageFilterModelConverter<>));
     }

@@ -2,6 +2,9 @@
 using UA.Application.Services.Interfaces;
 using UA.Application.Validators.Interfaces;
 using UA.Application.ViewModels;
+using UA.Application.ViewModels.Pagination;
+using UA.Data.Core.Pagination;
+using UA.Data.Models;
 using UA.Domain.Models;
 using UA.Domain.Services.Interfaces;
 
@@ -30,9 +33,18 @@ internal sealed class UserAppService : IUserAppService
         var model = _mapper.Map<CreateUserModel>(viewModel);
 
         var user = await _userService.Create(model);
-        
-        var userViewModel = _mapper.Map<UserViewModel>(user);
 
-        return userViewModel;
+        return _mapper.Map<UserViewModel>(user);;
+    }
+
+    public async Task<PageViewModel<UserViewModel>> GetListAsync(PageFilterViewModel pageFilterViewModel)
+    {
+        await _validator.Validate(pageFilterViewModel);
+        
+        var pageFilterModel = _mapper.Map<PageFilterModel<User>>(pageFilterViewModel);
+
+        var pageModel = await _userService.GetListAsync(pageFilterModel);
+        
+        return _mapper.Map<PageViewModel<UserViewModel>>(pageModel);
     }
 }

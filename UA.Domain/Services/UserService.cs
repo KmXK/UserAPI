@@ -1,4 +1,5 @@
 ﻿using UA.Data.Core.Interfaces;
+using UA.Data.Core.Pagination;
 using UA.Data.Models;
 using UA.Domain.Models;
 using UA.Domain.Services.Base;
@@ -40,5 +41,12 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     public async Task<bool> DoesUserWithEmailExist(string email)
     {
         return await WorkRepository.Exists(UserSpecifications.ForEmail(email));
+    }
+
+    public async Task<PageModel<User>> GetListAsync(PageFilterModel<User> pageFilterModel)
+    {
+        return await WorkRepository.GetPagedListBySpecAsync(
+            pageFilterModel,
+            UserSpecifications.ForAll());
     }
 }
