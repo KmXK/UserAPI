@@ -6,7 +6,7 @@ using UA.Data.Repositories.Interfaces;
 
 namespace UA.Data.Repositories;
 
-internal class KeyedRepository<TId, TEntity> : Repository<TEntity>, IKeyedRepository<TId, TEntity>
+internal class KeyedRepository<TId, TEntity> : SpecRepository<TEntity>, IKeyedRepository<TId, TEntity>
     where TEntity : Entity<TId>
     where TId : struct
 {
