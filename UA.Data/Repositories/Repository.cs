@@ -1,30 +1,38 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using UA.Data.Core.Configuration;
+using UA.Data.Helpers;
 using UA.Data.Models.Base;
 
 namespace UA.Data.Repositories;
 
-public abstract class BaseRepository<TEntity> where TEntity : Entity
+public class Repository<TEntity> where TEntity : Entity
 {
     private readonly AppContext _context;
+    private readonly DbSet<TEntity> _set;
     
-    protected BaseRepository(AppContext context)
+    protected Repository(AppContext context)
     {
         _context = context;
-        Set = _context.Set<TEntity>();
+        _set = _context.Set<TEntity>();
     }
+
+    protected IQueryable<TEntity> Queryable => _set.AsQueryable();
     
-    protected DbSet<TEntity> Set { get; }
+    public async Task<IEnumerable<TEntity>> GetAllAsync(Configuration<TEntity> configuration = null)
+    {
+        return await Queryable.Apply(configuration).ToListAsync();
+    }
 
     public async Task<bool> AddAsync(TEntity entity)
     {
-        var result = await Set.AddAsync(entity);
+        var result = await _set.AddAsync(entity);
         
         return result.State == EntityState.Added;
     }
     
     public bool Update(TEntity entity)
     {
-        Set.Update(entity);
+        _set.Update(entity);
 
         return _context.Entry(entity).State == EntityState.Modified;
     }
@@ -32,9 +40,9 @@ public abstract class BaseRepository<TEntity> where TEntity : Entity
     public bool Delete(TEntity entity)
     {
         if (_context.Entry(entity).State == EntityState.Detached)
-            Set.Attach(entity);
+            _set.Attach(entity);
 
-        Set.Remove(entity);
+        _set.Remove(entity);
 
         return _context.Entry(entity).State == EntityState.Deleted;
     }
