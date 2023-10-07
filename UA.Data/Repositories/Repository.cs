@@ -20,7 +20,7 @@ public class Repository<TEntity> where TEntity : Entity
     
     public async Task<IEnumerable<TEntity>> GetAllAsync(Configuration<TEntity> configuration = null)
     {
-        return await Queryable.Apply(configuration).ToListAsync();
+        return await Queryable.ApplyConfiguration(configuration).ToListAsync();
     }
 
     public async Task<bool> AddAsync(TEntity entity)

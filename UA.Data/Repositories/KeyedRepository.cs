@@ -15,6 +15,6 @@ public class KeyedRepository<TId, TEntity> : Repository<TEntity>
 
     public async Task<TEntity> GetByIdAsync(TId id, Configuration<TEntity> configuration = null)
     {
-        return await Queryable.Apply(configuration).FirstOrDefaultAsync(x => x.Id.Equals(id));
+        return await Queryable.ApplyConfiguration(configuration).FirstOrDefaultAsync(x => x.Id.Equals(id));
     }
 }
