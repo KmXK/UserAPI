@@ -14,4 +14,6 @@ public interface ISpecRepository<TEntity> : IRepository<TEntity>
     Task<IEnumerable<TEntity>> GetListBySpecAsync(
         Specification<TEntity> specification,
         Configuration<TEntity> configuration = null);
+
+    Task<bool> Exists(Specification<TEntity> specification);
 }

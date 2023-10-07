@@ -33,4 +33,9 @@ internal class SpecRepository<TEntity> : Repository<TEntity>, ISpecRepository<TE
             .ApplyConfiguration(configuration)
             .ToListAsync();
     }
+
+    public async Task<bool> Exists(Specification<TEntity> specification)
+    {
+        return await Queryable.ApplySpecification(specification).AnyAsync();
+    }
 }
