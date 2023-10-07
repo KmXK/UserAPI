@@ -29,9 +29,27 @@ public class UserController : BaseController
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateUserViewModel viewModel)
+    public async Task<IActionResult> Create([FromBody] UpdateUserViewModel viewModel)
     {
         var user = await _userAppService.Create(viewModel);
+        return Ok(user);
+    }
+    
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(
+        [FromRoute] Guid id,
+        [FromBody] UpdateUserViewModel viewModel)
+    {
+        var user = await _userAppService.UpdateAsync(id, viewModel);
+        return Ok(user);
+    }
+
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> Update(
+        [FromRoute] Guid id,
+        [FromBody] PatchUserViewModel viewModel)
+    {
+        var user = await _userAppService.UpdateAsync(id, viewModel);
         return Ok(user);
     }
 }

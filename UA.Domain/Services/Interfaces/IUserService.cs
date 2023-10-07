@@ -6,11 +6,15 @@ namespace UA.Domain.Services.Interfaces;
 
 public interface IUserService
 {
-    Task<User> Create(CreateUserModel model);
+    Task<User> Create(UpdateUserModel model);
 
-    Task<bool> DoesUserWithEmailExist(string email);
+    Task<bool> DoesUserWithEmailExist(string email, Guid? id = null);
     
     Task<PageModel<User>> GetListAsync(PageFilterModel<User> pageFilterModel);
 
     Task<User> GetUserByIdAsync(Guid id);
+
+    Task<User> UpdateAsync(Guid id, UpdateUserModel model);
+    
+    Task<User> UpdateAsync(Guid id, PatchUserModel model);
 }

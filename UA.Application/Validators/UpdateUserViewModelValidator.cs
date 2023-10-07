@@ -4,9 +4,9 @@ using UA.Domain.Services.Interfaces;
 
 namespace UA.Application.Validators;
 
-public class CreateUserViewModelValidator : AbstractValidator<CreateUserViewModel>
+public class UpdateUserViewModelValidator : AbstractValidator<UpdateUserViewModel>
 {
-    public CreateUserViewModelValidator(
+    public UpdateUserViewModelValidator(
         IUserService userService)
     {
         RuleLevelCascadeMode = CascadeMode.Stop;
@@ -24,7 +24,7 @@ public class CreateUserViewModelValidator : AbstractValidator<CreateUserViewMode
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email.")
-            .MustAsync(async (email, _) => await userService.DoesUserWithEmailExist(email) == false)
+            .MustAsync(async (model, _, _) => await userService.DoesUserWithEmailExist(model.Email, model.Id) == false)
             .WithMessage("User with such email already exists.");
     }
 }

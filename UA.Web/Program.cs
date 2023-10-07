@@ -51,7 +51,7 @@ builder.Services.AddDbContext<AppContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(DomainProfile).Assembly);
 
-builder.Services.AddValidatorsFromAssemblyContaining<CreateUserViewModelValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserViewModelValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

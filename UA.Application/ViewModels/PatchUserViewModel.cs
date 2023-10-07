@@ -1,12 +1,14 @@
 ﻿using UA.Data.Enums;
 
-namespace UA.Domain.Models;
+namespace UA.Application.ViewModels;
 
-public sealed class CreateUserModel
+public sealed class PatchUserViewModel
 {
+    public Guid Id { get; set; }
+    
     public string Name { get; set; }
     
-    public int Age { get; set; }
+    public int? Age { get; set; }
     
     public string Email { get; set; }
 

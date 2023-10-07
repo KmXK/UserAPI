@@ -15,7 +15,8 @@ public sealed class DomainProfile : Profile
         CreateMap<User, UserViewModel>();
         CreateMap<Role, RoleViewModel>();
         
-        CreateMap<CreateUserViewModel, CreateUserModel>();
+        CreateMap<UpdateUserViewModel, UpdateUserModel>();
+        CreateMap<PatchUserViewModel, PatchUserModel>();
 
         CreateMap(typeof(PageModel<>), typeof(PageViewModel<>));
         CreateMap(typeof(PageFilterViewModel), typeof(PageFilterModel<>))

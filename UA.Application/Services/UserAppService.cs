@@ -26,11 +26,11 @@ internal sealed class UserAppService : IUserAppService
         _mapper = mapper;
     }
     
-    public async Task<UserViewModel> Create(CreateUserViewModel viewModel)
+    public async Task<UserViewModel> Create(UpdateUserViewModel viewModel)
     {
         await _validator.Validate(viewModel);
         
-        var model = _mapper.Map<CreateUserModel>(viewModel);
+        var model = _mapper.Map<UpdateUserModel>(viewModel);
 
         var user = await _userService.Create(model);
 
@@ -51,6 +51,32 @@ internal sealed class UserAppService : IUserAppService
     public async Task<UserViewModel> GetUserByIdAsync(Guid id)
     {
         var user = await _userService.GetUserByIdAsync(id);
+
+        return _mapper.Map<UserViewModel>(user);
+    }
+
+    public async Task<UserViewModel> UpdateAsync(Guid id, UpdateUserViewModel viewModel)
+    {
+        viewModel.Id = id;
+        
+        await _validator.Validate(viewModel);
+        
+        var model = _mapper.Map<UpdateUserModel>(viewModel);
+        
+        var user = await _userService.UpdateAsync(id, model);
+        
+        return _mapper.Map<UserViewModel>(user);
+    }
+
+    public async Task<UserViewModel> UpdateAsync(Guid id, PatchUserViewModel viewModel)
+    {
+        viewModel.Id = id;
+        
+        await _validator.Validate(viewModel);
+        
+        var model = _mapper.Map<PatchUserModel>(viewModel);
+
+        var user = await _userService.UpdateAsync(id, model);
 
         return _mapper.Map<UserViewModel>(user);
     }
