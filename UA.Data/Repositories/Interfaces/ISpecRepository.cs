@@ -4,7 +4,8 @@ using UA.Data.Models.Base;
 
 namespace UA.Data.Repositories.Interfaces;
 
-public interface ISpecRepository<TEntity> where TEntity : Entity
+public interface ISpecRepository<TEntity> : IRepository<TEntity>
+    where TEntity : Entity
 {
     Task<TEntity> GetBySpecAsync(
         Specification<TEntity> specification,

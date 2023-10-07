@@ -3,7 +3,7 @@ using UA.Data.Models.Base;
 
 namespace UA.Data.Repositories.Interfaces;
 
-public interface IKeyedRepository<TId, TEntity>
+public interface IKeyedRepository<TId, TEntity> : ISpecRepository<TEntity>
     where TEntity : Entity<TId>
     where TId : struct
 {
