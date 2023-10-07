@@ -2,10 +2,11 @@
 using UA.Data.Core.Configuration;
 using UA.Data.Helpers;
 using UA.Data.Models.Base;
+using UA.Data.Repositories.Interfaces;
 
 namespace UA.Data.Repositories;
 
-public class Repository<TEntity> where TEntity : Entity
+public class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity
 {
     private readonly AppContext _context;
     private readonly DbSet<TEntity> _set;

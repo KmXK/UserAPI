@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using UA.Data.Core.Configuration;
 using UA.Data.Helpers;
 using UA.Data.Models.Base;
+using UA.Data.Repositories.Interfaces;
 
 namespace UA.Data.Repositories;
 
-public class SpecRepository<TEntity> : Repository<TEntity> where TEntity : Entity
+public class SpecRepository<TEntity> : Repository<TEntity>, ISpecRepository<TEntity>
+    where TEntity : Entity
 {
     protected SpecRepository(AppContext context) : base(context)
     {

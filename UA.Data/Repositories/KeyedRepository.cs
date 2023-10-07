@@ -2,10 +2,11 @@
 using UA.Data.Core.Configuration;
 using UA.Data.Helpers;
 using UA.Data.Models.Base;
+using UA.Data.Repositories.Interfaces;
 
 namespace UA.Data.Repositories;
 
-public class KeyedRepository<TId, TEntity> : Repository<TEntity>
+public class KeyedRepository<TId, TEntity> : Repository<TEntity>, IKeyedRepository<TId, TEntity>
     where TEntity : Entity<TId>
     where TId : struct
 {
