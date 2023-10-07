@@ -1,6 +1,8 @@
-﻿namespace UA.Application.Interfaces;
+﻿using UA.Application.ViewModels;
+
+namespace UA.Application.Interfaces;
 
 public interface IUserAppService
 {
-    string Test(Guid id);
+    Task<UserViewModel> Create(CreateUserViewModel viewModel);
 }

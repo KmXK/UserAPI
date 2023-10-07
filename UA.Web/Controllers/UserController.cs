@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UA.Application.Interfaces;
+using UA.Application.ViewModels;
 
 namespace UA.Web.Controllers;
 
@@ -12,9 +13,10 @@ public class UserController : BaseController
         _userAppService = userAppService;
     }
 
-    [HttpGet("{id:guid}")]
-    public IActionResult Get(Guid id)
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateUserViewModel viewModel)
     {
-        return Ok(_userAppService.Test(id));
+        var user = await _userAppService.Create(viewModel);
+        return Ok(user);
     }
 }
