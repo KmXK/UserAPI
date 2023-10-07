@@ -19,6 +19,8 @@ public sealed class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(x => x.Age).IsRequired();
         builder.Property(x => x.Email).IsRequired();
 
+        builder.HasIndex(x => x.Email).IsUnique();
+
         builder
             .HasMany(x => x.Roles)
             .WithMany()
