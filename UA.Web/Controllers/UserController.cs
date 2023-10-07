@@ -22,7 +22,7 @@ public class UserController : BaseController
     }
     
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> List([FromRoute] Guid id)
+    public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var user = await _userAppService.GetUserByIdAsync(id);
         return Ok(user);
