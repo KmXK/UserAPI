@@ -10,5 +10,6 @@ public sealed class DomainRegistrationModule : Module
     {
         builder.RegisterType<UserService>().As<IUserService>();
         builder.RegisterType<RoleService>().As<IRoleService>();
+        builder.RegisterType<PrincipalService>().As<IPrincipalService>();
     }
 }
