@@ -1,8 +1,10 @@
+using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using FluentValidation;
-using FluentValidation.Results;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using UA.Application;
 using UA.Application.AutoMapper;
 using UA.Application.Validators;
@@ -14,6 +16,7 @@ using UA.Infrastructure.Config.Interfaces;
 using UA.Web.Filters;
 using UA.Web.Helpers;
 using AppContext = UA.Data.AppContext;
+using ValidationFailure = FluentValidation.Results.ValidationFailure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(b =>
     b.RegisterModule<DataRegistrationModule>();
     b.RegisterModule<DomainRegistrationModule>();
     b.RegisterModule<ApplicationRegistrationModule>();
+    b.RegisterModule<InfrastructureRegistrationModule>();
 });
 
 builder.Services
@@ -47,6 +51,23 @@ builder.Services
             }));
         };
     });
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidAudience = builder.Configuration["Security:ValidAudience"],
+        ValidIssuer = builder.Configuration["Security:ValidIssuer"],
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Security:Secret"]!)),
+    };
+});
 
 builder.Services.AddDbContext<AppContext>(options =>
     options.UseSqlServer(
@@ -73,6 +94,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

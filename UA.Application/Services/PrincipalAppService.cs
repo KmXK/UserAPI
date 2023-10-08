@@ -28,6 +28,7 @@ public sealed class PrincipalAppService : IPrincipalAppService
         return new LoginResultViewModel
         {
             UserId = user.Id,
+            Email = user.Email,
             Roles = user.Roles.Select(x => x.Name)
         };
     }
