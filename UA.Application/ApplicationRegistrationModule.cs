@@ -13,5 +13,6 @@ public sealed class ApplicationRegistrationModule : Module
         builder.RegisterType<Validator>().As<IValidator>();
         
         builder.RegisterType<UserAppService>().As<IUserAppService>();
+        builder.RegisterType<PrincipalAppService>().As<IPrincipalAppService>();
     }
 }

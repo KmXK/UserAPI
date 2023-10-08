@@ -27,6 +27,7 @@
       <ProjectReference Include="..\UA.Application\UA.Application.csproj" />
       <ProjectReference Include="..\UA.Data.Migrations\UA.Data.Migrations.csproj" />
       <ProjectReference Include="..\UA.Data\UA.Data.csproj" />
+      <ProjectReference Include="..\UA.Infrastructure\UA.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
