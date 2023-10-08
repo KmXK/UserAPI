@@ -48,10 +48,10 @@ public sealed class Configuration<TEntity> where TEntity : Entity
             }
             else
             {
-                expression = null;
+                break;
             }
         }
-
+        
         list.Reverse();
         return string.Join('.', list);
     }

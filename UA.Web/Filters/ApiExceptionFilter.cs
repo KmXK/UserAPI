@@ -20,7 +20,7 @@ public sealed class ApiExceptionFilter : IAsyncExceptionFilter
                 .Select(e => new ErrorViewModel(e.ErrorMessage))
                 .ToList()
         };
-        
+
         if (!errors.Any())
         {
             errors.Add(new ErrorViewModel(context.Exception.Message));

@@ -9,7 +9,7 @@ public sealed class AppContext : DbContext
     public AppContext(DbContextOptions<AppContext> options) : base(options)
     {
     }
-    
+
     public DbSet<Role> Roles { get; }
     public DbSet<User> Users { get; }
 

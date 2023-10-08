@@ -10,7 +10,7 @@ public static class UserSpecifications
     {
         return new AdHocSpecification<User>(u => u.Id == id);
     }
-    
+
     public static Specification<User> ForEmail(string email)
     {
         return new AdHocSpecification<User>(u => u.Email == email);
@@ -24,17 +24,17 @@ public static class UserSpecifications
         {
             spec &= new AdHocSpecification<User>(u => u.Email.Contains(filterModel.Email));
         }
-        
+
         if (filterModel.Age.HasValue)
         {
             spec &= new AdHocSpecification<User>(u => u.Age == filterModel.Age);
         }
-        
+
         if (filterModel.Name != null)
         {
             spec &= new AdHocSpecification<User>(u => u.Name.Contains(filterModel.Name));
         }
-        
+
         if (filterModel.Roles?.Any() == true)
         {
             spec &= new AdHocSpecification<User>(u => u.Roles.Any(r => filterModel.Roles.Contains(r.Name)));
@@ -45,7 +45,7 @@ public static class UserSpecifications
 
     public static Specification<User> ForUserIdentity(string email, string passwordHash)
     {
-        return new AdHocSpecification<User>(u => 
+        return new AdHocSpecification<User>(u =>
             u.Email == email
             && u.PasswordHash == passwordHash);
     }

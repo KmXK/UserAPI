@@ -12,10 +12,10 @@ public sealed class Validator : IValidator
     {
         _serviceProvider = serviceProvider;
     }
-    
+
     public async Task Validate<TModel>(TModel model)
     {
-        var validator =  _serviceProvider.GetService<IValidator<TModel>>();
+        var validator = _serviceProvider.GetService<IValidator<TModel>>();
         await validator.ValidateAndThrowAsync(model);
     }
 }

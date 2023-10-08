@@ -2,9 +2,6 @@
 
 public class ErrorViewModel
 {
-    public string PropertyName { get; init; }
-    public string Message { get; init; }
-
     public ErrorViewModel(string message) : this(null, message)
     {
     }
@@ -14,4 +11,8 @@ public class ErrorViewModel
         PropertyName = propertyName;
         Message = message;
     }
+
+    public string PropertyName { get; init; }
+    
+    public string Message { get; init; }
 }

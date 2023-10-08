@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UA.Data\UA.Data.csproj" />
+        <ProjectReference Include="..\UA.Data\UA.Data.csproj"/>
     </ItemGroup>
 
 </Project>

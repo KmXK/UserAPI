@@ -13,13 +13,14 @@ public sealed class UnitOfWork : IUnitOfWork
     {
         _context = context;
     }
-    
+
     public IRepository<TEntity> GetRepository<TEntity>() where TEntity : Entity
     {
         return new Repository<TEntity>(_context);
     }
 
-    public IKeyedRepository<TId, TEntity> GetKeyedRepository<TId, TEntity>() where TId : struct where TEntity : Entity<TId>
+    public IKeyedRepository<TId, TEntity> GetKeyedRepository<TId, TEntity>()
+        where TId : struct where TEntity : Entity<TId>
     {
         return new KeyedRepository<TId, TEntity>(_context);
     }

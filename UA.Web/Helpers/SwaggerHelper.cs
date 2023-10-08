@@ -26,8 +26,8 @@ public static class SwaggerHelper
             });
 
             c.SchemaFilter<EnumSchemaFilter>();
-            
-            c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
                 {
                     new OpenApiSecurityScheme
@@ -39,7 +39,7 @@ public static class SwaggerHelper
                         },
                         Scheme = "oauth2",
                         Name = authorizationTokenType,
-                        In = ParameterLocation.Header,
+                        In = ParameterLocation.Header
                     },
                     new List<string>()
                 }

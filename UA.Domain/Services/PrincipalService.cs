@@ -11,7 +11,7 @@ public class PrincipalService : IPrincipalService
     {
         _userService = userService;
     }
-    
+
     public async Task<UserIdentity> GetUserIdentityAsync(Guid id)
     {
         var user = await _userService.GetUserByIdAsync(id);

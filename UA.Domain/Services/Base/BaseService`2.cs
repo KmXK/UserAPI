@@ -8,9 +8,9 @@ public abstract class BaseService<TId, TEntity> : BaseService
     where TEntity : Entity<TId>
     where TId : struct
 {
-    protected IKeyedRepository<TId, TEntity> WorkRepository => UnitOfWork.GetKeyedRepository<TId, TEntity>();
-
     protected BaseService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
     }
+
+    protected IKeyedRepository<TId, TEntity> WorkRepository => UnitOfWork.GetKeyedRepository<TId, TEntity>();
 }

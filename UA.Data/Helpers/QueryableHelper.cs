@@ -17,8 +17,8 @@ internal static class QueryableHelper
         }
 
         return configuration.Apply(queryable);
-    } 
-    
+    }
+
     public static IQueryable<TEntity> ApplySpecification<TEntity>(
         this IQueryable<TEntity> queryable,
         Specification<TEntity> specification) where TEntity : Entity

@@ -24,14 +24,14 @@ public class UserController : BaseController
         var user = await _userAppService.GetListAsync(pageFilterViewModel, filterViewModel);
         return Ok(user);
     }
-    
+
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get([FromRoute] Guid id)
     {
         var user = await _userAppService.GetUserByIdAsync(id);
         return user != null ? Ok(user) : NotFound();
     }
-    
+
     [HttpPost]
     [AuthorizeRole(RoleEnum.Admin, RoleEnum.SuperAdmin)]
     public async Task<IActionResult> Create([FromBody] UpdateUserViewModel viewModel)
@@ -39,7 +39,7 @@ public class UserController : BaseController
         var user = await _userAppService.Create(viewModel, UserId);
         return Ok(user);
     }
-    
+
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid id,

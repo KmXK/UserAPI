@@ -31,7 +31,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         _logger = logger;
         _roleService = roleService;
     }
-    
+
     public async Task<User> Create(UpdateUserModel model, UserIdentity userIdentity)
     {
         if (userIdentity.IsAdmin() == false)
@@ -39,7 +39,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
             _logger.LogInformation("User {Id} tried to create a user.", userIdentity.Id);
             throw new DomainViolationException("You are not allowed to create users.");
         }
-        
+
         var user = new User
         {
             Age = model.Age,
@@ -65,7 +65,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         {
             spec &= !UserSpecifications.ForId(id.Value);
         }
-        
+
         return await WorkRepository.Exists(spec);
     }
 
@@ -74,7 +74,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         UserListFilterModel filterModel)
     {
         var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
-        
+
         return await WorkRepository.GetPagedListBySpecAsync(
             pageFilterModel,
             UserSpecifications.ForFilter(filterModel),
@@ -83,7 +83,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
 
     public async Task<User> GetUserByIdAsync(Guid id)
     {
-        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles); 
+        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
         return await WorkRepository.GetByIdAsync(id, configuration);
     }
 
@@ -96,15 +96,15 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
                 id);
             throw new DomainViolationException("You are not allowed to update other users.");
         }
-        
-        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles); 
+
+        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
         var user = await WorkRepository.GetByIdAsync(id, configuration);
-        
+
         if (user == null)
         {
             return await Create(model, userIdentity);
         }
-        
+
         user.Age = model.Age;
         user.Email = model.Email;
         user.Name = model.Name;
@@ -124,8 +124,8 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
                 id);
             throw new DomainViolationException("You are not allowed to update other users.");
         }
-        
-        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles); 
+
+        var configuration = ConfigurationBuilder.Build<User>(x => x.Roles);
         var user = await WorkRepository.GetByIdAsync(id, configuration);
 
         if (user == null)
@@ -137,7 +137,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         {
             user.Age = model.Age.Value;
         }
-        
+
         if (model.Name != null)
         {
             user.Name = model.Name;
@@ -152,7 +152,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         {
             await UpdateRoles(user, model.Roles.ToList(), userIdentity);
         }
-        
+
         await UnitOfWork.SaveChangesAsync();
 
         return user;
@@ -167,14 +167,14 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
                 id);
             throw new DomainViolationException("You are not allowed to delete users.");
         }
-        
+
         return await WorkRepository.DeleteBySpecAsync(UserSpecifications.ForId(id)) > 0;
     }
 
     public async Task<User> ValidateUserAsync(string email, string password)
     {
         var configuration = ConfigurationBuilder.Build<User>(u => u.Roles);
-        
+
         var passwordHash = _cryptoService.HashText(password);
 
         var user = await WorkRepository.GetBySpecAsync(
@@ -197,7 +197,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
                 throw new DomainViolationException("You are not allowed to change user roles.");
             }
         }
-        
+
         if (newRoleIds.All(roleId => user.Roles.Any(x => x.Id == roleId)))
         {
             user.Roles = user.Roles.Where(role => newRoleIds.Contains(role.Id)).ToList();

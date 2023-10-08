@@ -14,7 +14,7 @@ public class PageFilterModelConverter<TEntity> : ITypeConverter<PageFilterViewMo
         ResolutionContext context)
     {
         var modelType = typeof(TEntity);
-        
+
         const BindingFlags bindingFlags = BindingFlags.Public
                                           | BindingFlags.Instance
                                           | BindingFlags.GetProperty
@@ -28,7 +28,7 @@ public class PageFilterModelConverter<TEntity> : ITypeConverter<PageFilterViewMo
                 PageSize = pageFilterViewModel.PageSize
             };
         }
-            
+
         var selectorParameter = Expression.Parameter(modelType);
         var propertySelector = Expression.Lambda<Func<TEntity, object>>(
             Expression.Convert(

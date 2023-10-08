@@ -12,7 +12,7 @@ public sealed class PrincipalAppService : IPrincipalAppService
     {
         _userService = userService;
     }
-    
+
     public async Task<LoginResultViewModel> ValidateUserAsync(SignInViewModel viewModel)
     {
         var user = await _userService.ValidateUserAsync(viewModel.Email, viewModel.Password);

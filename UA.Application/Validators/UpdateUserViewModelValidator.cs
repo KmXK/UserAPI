@@ -10,17 +10,17 @@ public class UpdateUserViewModelValidator : AbstractValidator<UpdateUserViewMode
         IUserService userService)
     {
         RuleLevelCascadeMode = CascadeMode.Stop;
-        
+
         RuleFor(x => x.Name)
             .NotEmpty().WithMessage("Name is required.");
-    
+
         RuleFor(x => x.Age)
             .NotEmpty().WithMessage("Age is required.")
             .Must(a => a > 0).WithMessage("Age must be positive integer.");
-    
+
         RuleFor(x => x.Roles)
             .NotEmpty().WithMessage("User must have at least one role.");
-        
+
         RuleFor(x => x.Email)
             .NotEmpty().WithMessage("Email is required.")
             .EmailAddress().WithMessage("Invalid email.")

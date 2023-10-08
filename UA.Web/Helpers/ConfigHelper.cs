@@ -8,7 +8,7 @@ public static class ConfigHelper
         where TConfig : TConfigInterface, new()
     {
         var config = new TConfig();
-        
+
         configuration.Bind(config);
 
         services.Add(new ServiceDescriptor(

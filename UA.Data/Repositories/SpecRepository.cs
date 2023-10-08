@@ -24,7 +24,7 @@ internal class SpecRepository<TEntity> : Repository<TEntity>, ISpecRepository<TE
             .ApplyConfiguration(configuration)
             .FirstOrDefaultAsync();
     }
-    
+
     public async Task<IEnumerable<TEntity>> GetListBySpecAsync(
         Specification<TEntity> specification,
         Configuration<TEntity> configuration = null)

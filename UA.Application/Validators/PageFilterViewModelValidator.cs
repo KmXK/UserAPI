@@ -10,7 +10,7 @@ public class PageFilterViewModelValidator : AbstractValidator<PageFilterViewMode
         RuleFor(x => x.PageIndex)
             .GreaterThanOrEqualTo(0)
             .WithMessage("Page index must be positive integer.");
-        
+
         RuleFor(x => x.PageSize)
             .Must(x => x.HasValue == false || x >= 1)
             .WithMessage("Page size must be positive integer.");

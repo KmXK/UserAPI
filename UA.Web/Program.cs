@@ -40,13 +40,13 @@ builder.Services
         options.InvalidModelStateResponseFactory = context =>
         {
             var errors = context.ModelState.Where(x => x.Value.Errors.Count > 0);
-            
+
             throw new ValidationException(errors.SelectMany(kvp =>
             {
                 return kvp.Value.Errors.Select(x => new ValidationFailure
                 {
                     ErrorMessage = x.ErrorMessage,
-                    PropertyName = kvp.Key,
+                    PropertyName = kvp.Key
                 });
             }));
         };
@@ -65,7 +65,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = builder.Configuration["Security:ValidIssuer"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["Security:Secret"]!)),
+            Encoding.UTF8.GetBytes(builder.Configuration["Security:Secret"]!))
     };
 });
 

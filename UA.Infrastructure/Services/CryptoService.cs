@@ -9,7 +9,7 @@ public sealed class CryptoService : ICryptoService
     public string HashText(string plainText)
     {
         var bytes = SHA512.HashData(Encoding.UTF8.GetBytes(plainText));
-        
+
         return Convert.ToHexString(bytes);
     }
 }

@@ -10,7 +10,7 @@ public class PatchUserViewModelValidator : AbstractValidator<PatchUserViewModel>
         IUserService userService)
     {
         RuleLevelCascadeMode = CascadeMode.Stop;
-        
+
         RuleFor(x => x.Age)
             .Must(a => a > 0).WithMessage("Age must be positive integer.")
             .When(x => x.Age.HasValue);

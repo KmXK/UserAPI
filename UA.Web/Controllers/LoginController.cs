@@ -24,7 +24,7 @@ public class LoginController : BaseController
         _principalAppService = principalAppService;
         _securityConfig = securityConfig;
     }
-    
+
     [HttpPost]
     public async Task<IActionResult> Login([FromBody] SignInViewModel viewModel)
     {
@@ -34,7 +34,7 @@ public class LoginController : BaseController
         {
             return BadRequest(new { error = result.ErrorMessage });
         }
-        
+
         return Ok(new { token = GetJwtToken(result) });
     }
 
