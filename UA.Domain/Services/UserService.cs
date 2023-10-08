@@ -1,4 +1,5 @@
-﻿using UA.Data.Core.Configuration;
+﻿using Microsoft.Extensions.Logging;
+using UA.Data.Core.Configuration;
 using UA.Data.Core.Interfaces;
 using UA.Data.Core.Pagination;
 using UA.Data.Enums;
@@ -17,14 +18,17 @@ namespace UA.Domain.Services;
 public sealed class UserService : BaseService<Guid, User>, IUserService
 {
     private readonly ICryptoService _cryptoService;
+    private readonly ILogger<UserService> _logger;
     private readonly IRoleService _roleService;
 
     public UserService(
         IUnitOfWork unitOfWork,
         ICryptoService cryptoService,
+        ILogger<UserService> logger,
         IRoleService roleService) : base(unitOfWork)
     {
         _cryptoService = cryptoService;
+        _logger = logger;
         _roleService = roleService;
     }
     
@@ -32,6 +36,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     {
         if (userIdentity.IsAdmin() == false)
         {
+            _logger.LogInformation("User {Id} tried to create a user.", userIdentity.Id);
             throw new DomainViolationException("You are not allowed to create users.");
         }
         
@@ -86,6 +91,9 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     {
         if (userIdentity.IsAdmin() == false && userIdentity.Id != id)
         {
+            _logger.LogInformation("User {Id} tried to update a user {Id2}.",
+                userIdentity.Id,
+                id);
             throw new DomainViolationException("You are not allowed to update other users.");
         }
         
@@ -111,6 +119,9 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     {
         if (userIdentity.IsAdmin() == false && userIdentity.Id != id)
         {
+            _logger.LogInformation("User {Id} tried to update a user {Id2}.",
+                userIdentity.Id,
+                id);
             throw new DomainViolationException("You are not allowed to update other users.");
         }
         
@@ -151,6 +162,9 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     {
         if (userIdentity.IsAdmin() == false)
         {
+            _logger.LogInformation("User {Id} tried to update a user {Id2}.",
+                userIdentity.Id,
+                id);
             throw new DomainViolationException("You are not allowed to delete users.");
         }
         
@@ -177,6 +191,9 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         {
             if (newRoleIds.Order().SequenceEqual(user.Roles.Select(x => x.Id).OrderBy(x => x)) == false)
             {
+                _logger.LogInformation("User {Id} tried to changed user roles for user {Id2}.",
+                    userIdentity.Id,
+                    user.Id);
                 throw new DomainViolationException("You are not allowed to change user roles.");
             }
         }

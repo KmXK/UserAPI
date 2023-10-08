@@ -76,6 +76,11 @@ builder.Services.AddDbContext<AppContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(DomainProfile).Assembly);
 
+builder.Services.AddLogging(b =>
+{
+    b.AddConfiguration(builder.Configuration.GetSection("Logging"));
+});
+
 builder.Services.AddConfig<ISecurityConfig, SecurityConfig>(
     builder.Configuration.GetSection("Security"));
 
