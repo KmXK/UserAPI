@@ -8,7 +8,11 @@ using UA.Application.AutoMapper;
 using UA.Application.Validators;
 using UA.Data;
 using UA.Domain;
+using UA.Infrastructure;
+using UA.Infrastructure.Config;
+using UA.Infrastructure.Config.Interfaces;
 using UA.Web.Filters;
+using UA.Web.Helpers;
 using AppContext = UA.Data.AppContext;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -51,6 +55,9 @@ builder.Services.AddDbContext<AppContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(DomainProfile).Assembly);
 
+builder.Services.AddConfig<ISecurityConfig, SecurityConfig>(
+    builder.Configuration.GetSection("Security"));
+
 builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserViewModelValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -72,6 +79,6 @@ app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
-services.GetService<AppContext>()!.Database.EnsureCreated();
+await services.GetService<AppContext>()!.Database.MigrateAsync();
 
 app.Run();
