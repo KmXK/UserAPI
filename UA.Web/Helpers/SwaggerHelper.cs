@@ -1,4 +1,5 @@
 ﻿using Microsoft.OpenApi.Models;
+using UA.Web.Swagger;
 
 namespace UA.Web.Helpers;
 
@@ -24,6 +25,8 @@ public static class SwaggerHelper
                 Scheme = authorizationTokenType
             });
 
+            c.SchemaFilter<EnumSchemaFilter>();
+            
             c.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {
                 {
