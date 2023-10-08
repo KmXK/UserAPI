@@ -84,6 +84,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<UpdateUserViewModelValidato
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSwaggerConfiguration();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
