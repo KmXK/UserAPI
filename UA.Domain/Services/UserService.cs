@@ -28,15 +28,15 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     
     public async Task<User> Create(UpdateUserModel model)
     {
-        var roles = (await _roleService.GetRolesAsync()).ToDictionary(x => x.Id, x => x);
-        
         var user = new User
         {
             Age = model.Age,
             Email = model.Email,
             Name = model.Name,
-            Roles = model.Roles.Select(x => roles[x]).ToList()
+            PasswordHash = _cryptoService.HashText(model.Email)
         };
+
+        await UpdateRoles(user, model.Roles.ToList());
 
         await WorkRepository.AddAsync(user);
 
@@ -148,7 +148,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         return user;
     }
 
-    private async Task UpdateRoles(User user, List<RoleEnum> newRoleIds)
+    private async Task UpdateRoles(User user, ICollection<RoleEnum> newRoleIds)
     {
         if (newRoleIds.All(roleId => user.Roles.Any(x => x.Id == roleId)))
         {
