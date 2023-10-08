@@ -11,4 +11,6 @@ public class User : Entity<Guid>
     public string Email { get; set; }
 
     public ICollection<Role> Roles { get; set; } = new List<Role>();
+    
+    public string PasswordHash { get; set; }
 }

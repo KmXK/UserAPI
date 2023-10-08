@@ -42,4 +42,11 @@ public static class UserSpecifications
 
         return spec;
     }
+
+    public static Specification<User> ForUserIdentity(string email, string passwordHash)
+    {
+        return new AdHocSpecification<User>(u => 
+            u.Email == email
+            && u.PasswordHash == passwordHash);
+    }
 }

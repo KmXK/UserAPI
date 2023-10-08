@@ -22,4 +22,6 @@ public interface IUserService
     Task<User> UpdateAsync(Guid id, PatchUserModel model);
     
     Task<bool> DeleteAsync(Guid id);
+    
+    Task<User> ValidateUserAsync(string email, string password);
 }

@@ -8,17 +8,21 @@ using UA.Domain.Models;
 using UA.Domain.Services.Base;
 using UA.Domain.Services.Interfaces;
 using UA.Domain.Specifications;
+using UA.Infrastructure.Services.Interfaces;
 
 namespace UA.Domain.Services;
 
 public sealed class UserService : BaseService<Guid, User>, IUserService
 {
+    private readonly ICryptoService _cryptoService;
     private readonly IRoleService _roleService;
 
     public UserService(
         IUnitOfWork unitOfWork,
+        ICryptoService cryptoService,
         IRoleService roleService) : base(unitOfWork)
     {
+        _cryptoService = cryptoService;
         _roleService = roleService;
     }
     
@@ -129,6 +133,19 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
     public async Task<bool> DeleteAsync(Guid id)
     {
         return await WorkRepository.DeleteBySpecAsync(UserSpecifications.ForId(id)) > 0;
+    }
+
+    public async Task<User> ValidateUserAsync(string email, string password)
+    {
+        var configuration = ConfigurationBuilder.Build<User>(u => u.Roles);
+        
+        var passwordHash = _cryptoService.HashText(password);
+
+        var user = await WorkRepository.GetBySpecAsync(
+            UserSpecifications.ForUserIdentity(email, passwordHash),
+            configuration);
+
+        return user;
     }
 
     private async Task UpdateRoles(User user, List<RoleEnum> newRoleIds)
