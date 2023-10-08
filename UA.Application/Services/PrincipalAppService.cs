@@ -29,7 +29,7 @@ public sealed class PrincipalAppService : IPrincipalAppService
         {
             UserId = user.Id,
             Email = user.Email,
-            Roles = user.Roles.Select(x => x.Name)
+            Roles = user.Roles.Select(x => x.Id.ToString())
         };
     }
 }

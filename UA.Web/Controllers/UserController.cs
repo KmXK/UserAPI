@@ -2,6 +2,8 @@
 using UA.Application.Services.Interfaces;
 using UA.Application.ViewModels;
 using UA.Application.ViewModels.Pagination;
+using UA.Data.Enums;
+using UA.Web.Attributes;
 
 namespace UA.Web.Controllers;
 
@@ -31,6 +33,7 @@ public class UserController : BaseController
     }
     
     [HttpPost]
+    [AuthorizeRole(RoleEnum.Admin, RoleEnum.SuperAdmin)]
     public async Task<IActionResult> Create([FromBody] UpdateUserViewModel viewModel)
     {
         var user = await _userAppService.Create(viewModel, UserId);
@@ -56,6 +59,7 @@ public class UserController : BaseController
     }
 
     [HttpDelete("{id:guid}")]
+    [AuthorizeRole(RoleEnum.Admin, RoleEnum.SuperAdmin)]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         var result = await _userAppService.DeleteAsync(id, UserId);
