@@ -1,6 +1,4 @@
-﻿using FluentValidation.Results;
-
-namespace UA.Application.Validators.Interfaces;
+﻿namespace UA.Application.Validators.Interfaces;
 
 public interface IValidator
 {

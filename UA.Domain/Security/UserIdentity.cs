@@ -12,4 +12,9 @@ public sealed class UserIdentity
     {
         return Roles.Contains(role);
     }
+
+    public bool IsAdmin()
+    {
+        return IsInRole(RoleEnum.Admin) || IsInRole(RoleEnum.SuperAdmin);
+    }
 }

@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using UA.Application.ViewModels;
@@ -21,8 +20,6 @@ public sealed class ApiExceptionFilter : IAsyncExceptionFilter
                 .Select(e => new ErrorViewModel(e.ErrorMessage))
                 .ToList()
         };
-
-        Console.WriteLine(JsonSerializer.Serialize(errors));
         
         if (!errors.Any())
         {

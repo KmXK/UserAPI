@@ -33,7 +33,7 @@ public class UserController : BaseController
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] UpdateUserViewModel viewModel)
     {
-        var user = await _userAppService.Create(viewModel);
+        var user = await _userAppService.Create(viewModel, UserId);
         return Ok(user);
     }
     
@@ -42,7 +42,7 @@ public class UserController : BaseController
         [FromRoute] Guid id,
         [FromBody] UpdateUserViewModel viewModel)
     {
-        var user = await _userAppService.UpdateAsync(id, viewModel);
+        var user = await _userAppService.UpdateAsync(id, viewModel, UserId);
         return Ok(user);
     }
 
@@ -51,14 +51,14 @@ public class UserController : BaseController
         [FromRoute] Guid id,
         [FromBody] PatchUserViewModel viewModel)
     {
-        var user = await _userAppService.UpdateAsync(id, viewModel);
+        var user = await _userAppService.UpdateAsync(id, viewModel, UserId);
         return Ok(user);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        var result = await _userAppService.DeleteAsync(id);
+        var result = await _userAppService.DeleteAsync(id, UserId);
         return result ? Ok() : NotFound();
     }
 }

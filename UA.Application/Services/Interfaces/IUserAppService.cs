@@ -5,7 +5,7 @@ namespace UA.Application.Services.Interfaces;
 
 public interface IUserAppService
 {
-    Task<UserViewModel> Create(UpdateUserViewModel viewModel);
+    Task<UserViewModel> Create(UpdateUserViewModel viewModel, Guid currentUserId);
     
     Task<PageViewModel<UserViewModel>> GetListAsync(
         PageFilterViewModel pageFilterViewModel,
@@ -13,9 +13,9 @@ public interface IUserAppService
 
     Task<UserViewModel> GetUserByIdAsync(Guid id);
 
-    Task<UserViewModel> UpdateAsync(Guid id, UpdateUserViewModel viewModel);
+    Task<UserViewModel> UpdateAsync(Guid id, UpdateUserViewModel viewModel, Guid currentUserId);
     
-    Task<UserViewModel> UpdateAsync(Guid id, PatchUserViewModel viewModel);
+    Task<UserViewModel> UpdateAsync(Guid id, PatchUserViewModel viewModel, Guid currentUserId);
     
-    Task<bool> DeleteAsync(Guid id);
+    Task<bool> DeleteAsync(Guid id, Guid currentUserId);
 }

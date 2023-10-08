@@ -3,8 +3,10 @@ using UA.Data.Core.Interfaces;
 using UA.Data.Core.Pagination;
 using UA.Data.Enums;
 using UA.Data.Models;
+using UA.Domain.Exceptions;
 using UA.Domain.Filtering;
 using UA.Domain.Models;
+using UA.Domain.Security;
 using UA.Domain.Services.Base;
 using UA.Domain.Services.Interfaces;
 using UA.Domain.Specifications;
@@ -26,8 +28,13 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         _roleService = roleService;
     }
     
-    public async Task<User> Create(UpdateUserModel model)
+    public async Task<User> Create(UpdateUserModel model, UserIdentity userIdentity)
     {
+        if (userIdentity.IsAdmin() == false)
+        {
+            throw new DomainViolationException("You are not allowed to create users.");
+        }
+        
         var user = new User
         {
             Age = model.Age,
@@ -36,7 +43,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
             PasswordHash = _cryptoService.HashText(model.Email)
         };
 
-        await UpdateRoles(user, model.Roles.ToList());
+        await UpdateRoles(user, model.Roles.ToList(), userIdentity);
 
         await WorkRepository.AddAsync(user);
 
@@ -75,28 +82,38 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         return await WorkRepository.GetByIdAsync(id, configuration);
     }
 
-    public async Task<User> UpdateAsync(Guid id, UpdateUserModel model)
+    public async Task<User> UpdateAsync(Guid id, UpdateUserModel model, UserIdentity userIdentity)
     {
+        if (userIdentity.IsAdmin() == false && userIdentity.Id != id)
+        {
+            throw new DomainViolationException("You are not allowed to update other users.");
+        }
+        
         var configuration = ConfigurationBuilder.Build<User>(x => x.Roles); 
         var user = await WorkRepository.GetByIdAsync(id, configuration);
         
         if (user == null)
         {
-            return await Create(model);
+            return await Create(model, userIdentity);
         }
         
         user.Age = model.Age;
         user.Email = model.Email;
         user.Name = model.Name;
-        await UpdateRoles(user, model.Roles.ToList());
+        await UpdateRoles(user, model.Roles.ToList(), userIdentity);
 
         await UnitOfWork.SaveChangesAsync();
 
         return user;
     }
 
-    public async Task<User> UpdateAsync(Guid id, PatchUserModel model)
+    public async Task<User> UpdateAsync(Guid id, PatchUserModel model, UserIdentity userIdentity)
     {
+        if (userIdentity.IsAdmin() == false && userIdentity.Id != id)
+        {
+            throw new DomainViolationException("You are not allowed to update other users.");
+        }
+        
         var configuration = ConfigurationBuilder.Build<User>(x => x.Roles); 
         var user = await WorkRepository.GetByIdAsync(id, configuration);
 
@@ -122,7 +139,7 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
 
         if (model.Roles != null)
         {
-            await UpdateRoles(user, model.Roles.ToList());
+            await UpdateRoles(user, model.Roles.ToList(), userIdentity);
         }
         
         await UnitOfWork.SaveChangesAsync();
@@ -130,8 +147,13 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         return user;
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id, UserIdentity userIdentity)
     {
+        if (userIdentity.IsAdmin() == false)
+        {
+            throw new DomainViolationException("You are not allowed to delete users.");
+        }
+        
         return await WorkRepository.DeleteBySpecAsync(UserSpecifications.ForId(id)) > 0;
     }
 
@@ -148,8 +170,17 @@ public sealed class UserService : BaseService<Guid, User>, IUserService
         return user;
     }
 
-    private async Task UpdateRoles(User user, ICollection<RoleEnum> newRoleIds)
+    private async Task UpdateRoles(User user, ICollection<RoleEnum> newRoleIds, UserIdentity userIdentity)
     {
+        if (userIdentity.IsInRole(RoleEnum.Admin) == false &&
+            userIdentity.IsInRole(RoleEnum.SuperAdmin) == false)
+        {
+            if (newRoleIds.Order().SequenceEqual(user.Roles.Select(x => x.Id).OrderBy(x => x)) == false)
+            {
+                throw new DomainViolationException("You are not allowed to change user roles.");
+            }
+        }
+        
         if (newRoleIds.All(roleId => user.Roles.Any(x => x.Id == roleId)))
         {
             user.Roles = user.Roles.Where(role => newRoleIds.Contains(role.Id)).ToList();

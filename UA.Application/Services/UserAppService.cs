@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AutoMapper;
+﻿using AutoMapper;
 using UA.Application.Services.Interfaces;
 using UA.Application.Validators.Interfaces;
 using UA.Application.ViewModels;
@@ -16,25 +15,30 @@ internal sealed class UserAppService : IUserAppService
 {
     private readonly IUserService _userService;
     private readonly IValidator _validator;
+    private readonly IPrincipalService _principalService;
     private readonly IMapper _mapper;
 
     public UserAppService(
         IUserService userService,
         IValidator validator,
+        IPrincipalService principalService,
         IMapper mapper)
     {
         _userService = userService;
         _validator = validator;
+        _principalService = principalService;
         _mapper = mapper;
     }
     
-    public async Task<UserViewModel> Create(UpdateUserViewModel viewModel)
+    public async Task<UserViewModel> Create(UpdateUserViewModel viewModel, Guid currentUserId)
     {
         await _validator.Validate(viewModel);
+
+        var userIdentity = await _principalService.GetUserIdentityAsync(currentUserId);
         
         var model = _mapper.Map<UpdateUserModel>(viewModel);
 
-        var user = await _userService.Create(model);
+        var user = await _userService.Create(model, userIdentity);
 
         return _mapper.Map<UserViewModel>(user);;
     }
@@ -61,20 +65,22 @@ internal sealed class UserAppService : IUserAppService
         return _mapper.Map<UserViewModel>(user);
     }
 
-    public async Task<UserViewModel> UpdateAsync(Guid id, UpdateUserViewModel viewModel)
+    public async Task<UserViewModel> UpdateAsync(Guid id, UpdateUserViewModel viewModel, Guid currentUserId)
     {
         viewModel.Id = id;
         
         await _validator.Validate(viewModel);
         
         var model = _mapper.Map<UpdateUserModel>(viewModel);
+
+        var userIdentity = await _principalService.GetUserIdentityAsync(currentUserId);
         
-        var user = await _userService.UpdateAsync(id, model);
+        var user = await _userService.UpdateAsync(id, model, userIdentity);
         
         return _mapper.Map<UserViewModel>(user);
     }
 
-    public async Task<UserViewModel> UpdateAsync(Guid id, PatchUserViewModel viewModel)
+    public async Task<UserViewModel> UpdateAsync(Guid id, PatchUserViewModel viewModel, Guid currentUserId)
     {
         viewModel.Id = id;
         
@@ -82,13 +88,17 @@ internal sealed class UserAppService : IUserAppService
         
         var model = _mapper.Map<PatchUserModel>(viewModel);
 
-        var user = await _userService.UpdateAsync(id, model);
+        var userIdentity = await _principalService.GetUserIdentityAsync(currentUserId);
+
+        var user = await _userService.UpdateAsync(id, model, userIdentity);
 
         return _mapper.Map<UserViewModel>(user);
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id, Guid currentUserId)
     {
-        return await _userService.DeleteAsync(id);
+        var userIdentity = await _principalService.GetUserIdentityAsync(currentUserId);
+        
+        return await _userService.DeleteAsync(id, userIdentity);
     }
 }

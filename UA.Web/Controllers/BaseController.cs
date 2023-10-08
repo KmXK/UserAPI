@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace UA.Web.Controllers;
@@ -8,4 +9,5 @@ namespace UA.Web.Controllers;
 [Route("api/[controller]")]
 public class BaseController : ControllerBase
 {
+    protected Guid UserId => Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 }
